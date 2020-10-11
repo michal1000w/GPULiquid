@@ -224,14 +224,14 @@ bool Sample::init()
 	m_show_gui = true;
 	m_show_fluid = false; //false
 	m_show_topo = false;
-	m_use_color = true;//true
+	m_use_color = false;//true
 	m_render_optix = true; //true
 	m_shade_style = 1;//1
 	m_frame = 0;
-	m_sample = 10;//0
+	m_sample = 0;//0
 	m_id = 0;
 	m_origin = Vector3DF(0, 0, 0);
-	m_radius = 1.0;
+	m_radius = 1.0;//1
 	m_rebuild_gpu = true;//true
 	srand ( 6572 );
 
