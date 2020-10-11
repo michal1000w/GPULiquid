@@ -39,6 +39,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{549D8DCD-C9CE-4FD4-911D-BD10914FABE7}</ProjectGuid>
     <RootNamespace>GPULiqSIM</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -96,6 +97,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <FloatingPointModel>Fast</FloatingPointModel>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -107,6 +109,8 @@
     </Link>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
+      <UseHostInclude>true</UseHostInclude>
+      <FastMath>true</FastMath>
     </CudaCompile>
     <CudaLink>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\lib;C:\ProgramData\NVIDIA Corporation\OptiX SDK 6.5.0\lib64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

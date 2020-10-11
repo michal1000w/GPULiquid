@@ -31,24 +31,28 @@
 //	      GPU Fluids: Rama C. Hoetzlein (Fluids v3 2013)
 //--------------------------------------------------------------------
 
-#define PARTICLES_NUMBER 1000000
+#define USE_OPTIX true
+#define PARTICLES_NUMBER 2000000
 //16000000
 #define MAX_DOMAIN_SIZE 800, 400, 800
 // 800, 400, 800
-#define REAL_WORLD_SCALE 1.0f
-//1.0f
 #define EXAMPLE_SCENE 2
 //2
 #define MOJE
+#define DEBUG_MY
 //65536 * 128
 //m_Vec [ PVOLMAX ].Set (  1800, 1400, 1800 );     //maksymalna wielkoœæ Domeny
-#define FLUID_INTEGRITY
+//#define FLUID_INTEGRITY
 #define TIME_STEP 0.003f
 //0.003f
-#define PARTICLE_RADIUS 0.015f
+#define PARTICLE_RADIUS 0.00366f
 //0.015f
 #define GRAVITY 1.0f;
 //1.0f
+//CELL_SIZE = (PARTICLE_RADIUS*6.0) * 2
+#define SIM_SCALE 0.005f
+//cell_size / sim_scale
+//0.005f
 
 
 

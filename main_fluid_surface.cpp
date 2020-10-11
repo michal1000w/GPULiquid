@@ -225,7 +225,7 @@ bool Sample::init()
 	m_show_fluid = false; //false
 	m_show_topo = false;
 	m_use_color = false;//true
-	m_render_optix = true; //true
+	m_render_optix = USE_OPTIX; //true
 	m_shade_style = 1;//1
 	m_frame = 0;
 	m_sample = 0;//0
@@ -252,11 +252,19 @@ bool Sample::init()
 	gvdb.AddPath ( ASSET_PATH );
 	
 	// Set volume params
-	gvdb.getScene()->SetSteps ( 0.25f, 16, 0.25f );			// Set raycasting steps
+#ifdef MOJE
+	gvdb.getScene()->SetSteps ( 0.01f, 16, 0.01f );			// Set raycasting steps
 	gvdb.getScene()->SetExtinct ( -1.0f, 1.5f, 0.0f );		// Set volume extinction
 	gvdb.getScene()->SetVolumeRange ( 0.0f, 3.0f, -1.0f );	// Set volume value range
 	gvdb.getScene()->SetCutoff ( 0.005f, 0.01f, 0.0f );
 	gvdb.getScene()->SetBackgroundClr ( 0.8f, 0.8f, 0.8f, 1.0f );
+#else
+	gvdb.getScene()->SetSteps(0.25f, 16, 0.25f);			// Set raycasting steps
+	gvdb.getScene()->SetExtinct(-1.0f, 1.5f, 0.0f);		// Set volume extinction
+	gvdb.getScene()->SetVolumeRange(0.0f, 3.0f, -1.0f);	// Set volume value range
+	gvdb.getScene()->SetCutoff(0.005f, 0.01f, 0.0f);
+	gvdb.getScene()->SetBackgroundClr(0.8f, 0.8f, 0.8f, 1.0f);
+#endif
 	
 	// Configure volume
 	reconfigure ();
@@ -297,7 +305,7 @@ bool Sample::init()
 	// Create Light
 	Light* lgt = new Light;								
 #ifdef MOJE
-	lgt->setOrbit ( Vector3DF(20,60,0), ctr, 100000, 100.0 );
+	lgt->setOrbit ( Vector3DF(20,60,0), ctr, 1000, 1.0 );
 	gvdb.getScene()->SetLight(0, lgt);
 #else
 	lgt->setOrbit(Vector3DF(20, 60, 0), ctr, 1000, 1.0);
@@ -348,6 +356,8 @@ void Sample::simulate()
 	PERF_PUSH ( "Simulate" );
 	fluid.Run ();
 	PERF_POP ();
+
+	m_numpnts = PARTICLES_NUMBER;
 	
 
 	if ( m_shade_style == 0 ) return;		// Do not create volume if surface shading is off
@@ -397,7 +407,11 @@ void Sample::simulate()
 	gvdb.UpdateAtlas ();	
 
 	// Insert and Gather Points-to-Voxels
+#ifdef MOJE
 	int scPntLen = 0, subcell_size = 4;
+#else
+	int scPntLen = 0, subcell_size = 4;
+#endif
 	gvdb.InsertPointsSubcell (subcell_size, m_numpnts, m_radius*2.0f, m_origin, scPntLen );
 	gvdb.GatherLevelSet (subcell_size, m_numpnts, m_radius, m_origin, scPntLen, 0, 1 );
 	gvdb.UpdateApron(0, 3.0f);

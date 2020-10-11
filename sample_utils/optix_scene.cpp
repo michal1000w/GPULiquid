@@ -25,7 +25,7 @@
 // 
 // Version 1.0: Rama Hoetzlein, 5/1/2017
 //----------------------------------------------------------------------------------
-
+#define MOJE
 #include <GL/glew.h>
 //
 #include <cuda_runtime.h>
@@ -82,9 +82,9 @@ void OptixScene::InitializeOptix ( int w, int h )
 
 	// Assign context to optix
 	rtContextSetDevices(m_OptixContext->get(), 1, cudaGLDevices);
-	m_OptixContext->setEntryPointCount ( 1 );
-	m_OptixContext->setRayTypeCount( 2 );
-	m_OptixContext->setStackSize( 1024 );
+	m_OptixContext->setEntryPointCount(1);
+	m_OptixContext->setRayTypeCount(2);
+	m_OptixContext->setStackSize(1024);
 	
 	/*m_OptixContext->setPrintEnabled ( true );
 	m_OptixContext->setPrintBufferSize ( 1024 );
@@ -148,8 +148,11 @@ void OptixScene::InitializeOptix ( int w, int h )
 	nvprintf ( "Creating OptiX Main Group and BVH.\n" );
 	m_OptixMainGroup = m_OptixContext->createGroup ();
 	m_OptixMainGroup->setChildCount ( 0 );
-	m_OptixMainGroup->setAcceleration( m_OptixContext->createAcceleration("NoAccel","NoAccel") );	
-	//m_OptixMainGroup->setAcceleration( m_OptixContext->createAcceleration("Bvh","Bvh") );	
+#ifndef MOJE
+		m_OptixMainGroup->setAcceleration( m_OptixContext->createAcceleration("NoAccel","NoAccel") );	
+#else	
+		m_OptixMainGroup->setAcceleration( m_OptixContext->createAcceleration("Bvh","Bvh") );	
+#endif
 	m_OptixContext["top_object"]->set( m_OptixMainGroup );
 }
 

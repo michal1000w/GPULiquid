@@ -205,6 +205,8 @@ void FluidSystem::Start ( int num )
 	SetupAddVolume(m_Vec[PINITMIN], m_Vec[PINITMAX], m_Param[PSPACING], 0.1f, (int)m_Param[PNUM]);		// increases mNumPoints
 
 	TransferToCUDA ();		 // Initial transfer
+
+	DebugPrintMemory();
 }
 
 void FluidSystem::UpdateParams ()
@@ -1713,7 +1715,8 @@ void FluidSystem::Draw ( int frame, Camera3D& cam, float rad )
 
 	//-------------------------------------- DEBUGGING
 	// draw neighbors of particle i
-		/*int i = 320;
+#ifdef DEBUG_MYY
+		int i = 320;
 		int j, jndx = (mNbrList + i )->first;
 		for (int nbr=0; nbr < (mNbrList+i)->num; nbr++ ) {			
 			j = *(m_NeighborTable+jndx);
@@ -1753,7 +1756,7 @@ void FluidSystem::Draw ( int frame, Camera3D& cam, float rad )
 		Vector3DF gc;
 		gd /= m_GridDelta;
 
-		*/
+#endif
 
 	// Error particles (debugging)
 	/*for (int n=0; n < NumPoints(); n++) {
@@ -2273,7 +2276,11 @@ void FluidSystem::SetupDefaultParams ()
 	m_Time = 0.0f;							// Start at T=0
 	m_DT = 0.003f;	
 
+#ifdef MOJE
+	m_Param[PSIMSCALE] = SIM_SCALE;
+#else
 	m_Param [ PSIMSCALE ] =		0.005f;			// unit size
+#endif
 	m_Param [ PVISC ] =			0.50f;			// pascal-second (Pa.s) = 1 kg m^-1 s^-1  (see wikipedia page on viscosity)
 	m_Param [ PRESTDENSITY ] =	400.0f;			// kg / m^3
 	m_Param [ PSPACING ]	=	0.0f;			// spacing will be computed automatically from density in most examples (set to 0 for autocompute)
@@ -2322,9 +2329,9 @@ void FluidSystem::SetupDefaultParams ()
 	m_DT = TIME_STEP;
 	m_Param[PGRAV] = GRAVITY;
 	m_Param[PRADIUS] = PARTICLE_RADIUS;
-	m_Param[PSMOOTHRADIUS] = PARTICLE_RADIUS;
+	m_Param[PSMOOTHRADIUS] = PARTICLE_RADIUS*6.0;
 
-	m_Param[PGRIDSIZE] = m_Param[PSMOOTHRADIUS] * 2;
+	m_Param[PGRIDSIZE] = m_Param[PSMOOTHRADIUS] * 2.0;
 #endif
 
 }
@@ -2353,11 +2360,7 @@ void FluidSystem::SetupExampleParams ()
 		m_Param [PDRAWMODE] = 1;				// Point drawing
 		m_Param [PDRAWGRID] = 1;				// Grid drawing
 		m_Param [PDRAWTEXT] = 1;				// Text drawing
-#ifdef MOJE
-		m_Param [PSIMSCALE ] = REAL_WORLD_SCALE;
-#else
 		m_Param[PSIMSCALE] = 1.0f;
-#endif
 	
 		} break;
 	case 1:		// Tower
