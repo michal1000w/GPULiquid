@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CudaCompile Include="fluid_system_cuda.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="fluid.cpp" />
+    <ClCompile Include="fluid_system.cpp" />
+    <ClCompile Include="main_fluid_surface.cpp" />
+    <ClCompile Include="sample_utils\main_win.cpp" />
+    <ClCompile Include="sample_utils\optix_scene.cpp" />
+    <ClCompile Include="sample_utils\nv_gui.cpp" />
+    <ClCompile Include="sample_utils\file_png.cpp" />
+    <ClCompile Include="sample_utils\file_tga.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cutil_math.h" />
+    <ClInclude Include="fluid.h" />
+    <ClInclude Include="fluid_system.h" />
+    <ClInclude Include="fluid_system_cuda.cuh" />
+    <ClInclude Include="GVDB\gvdb.h" />
+    <ClInclude Include="GVDB\gvdb_camera.h" />
+    <ClInclude Include="sample_utils\main.h" />
+    <ClInclude Include="sample_utils\nv_gui.h" />
+    <ClInclude Include="sample_utils\optix_scene.h" />
+    <ClInclude Include="sample_utils\file_png.h" />
+    <ClInclude Include="sample_utils\file_tga.h" />
+  </ItemGroup>
+</Project>
